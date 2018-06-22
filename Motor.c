@@ -21,34 +21,35 @@ void InitCar() {
     PWM1_Set_Duty(80);
     Stop();
 }
-
+/*Forward Motion*/
 void GOForward() {
-    Forward = 1;
-    Backward = 0;
+    Forward = 1;   //RD6 as out one 
+    Backward = 0;   //RD7 as out zero 
 }
-
+/*Backward Motion*/
 void GoBackWard() {
-    Forward = 0;
-    Backward = 1;
+    Forward = 0;  //RD6 as out zero 
+    Backward = 1;  //RD7 as out one 
 }
-
+/*Stop Car */
 void Stop() {
 
-    Forward = 0;
-    Backward = 0;
+    Forward = 0; //RD6 as out zero 
+    Backward = 0; // RD6 as out zero 
 }
-
+/*Car steer Right */
 void steerRight() {
-    Right = 1;
-    Left = 0;
+    Right = 1; //RD4 as out one 
+    Left = 0;  //RD4 as out zero 
 }
-
+ /*Car steer left */
 void Steerleft() {
-    Right = 0;
-    Left = 1;
+    Right = 0;  //RD4 as out zero  
+    Left = 1;   //RD4 as out one 
 }
-
-void SteerStright() {
-    Right = 0;
-    Left = 0;
+/*Car Steer straight*/
+void SteerStraight() {
+      //Forward motor as stop 
+    Right = 0; 
+     Left = 0; 
 }
