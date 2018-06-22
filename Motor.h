@@ -21,7 +21,7 @@
 
 /* 
  * File:   
- * Author: 
+ * Author: Hassan Elsaied 
  * Comments:
  * Revision history: 
  */
@@ -31,10 +31,10 @@
 #ifndef  _Motor_H 
 #define	 _Motor_H
 #include <xc.h> // include processor files - each processor file is guarded.  
-#define  Right     RD0
-#define  Left      RD1 
-#define  Forward   RD2
-#define  Backward  RD3
+#define  Right     RD4
+#define  Left      RD5 
+#define  Forward   RD6
+#define  Backward  RD7
 #include "../inulde/PWM_CCP.X/PWM1.h"
 void InitCar();
 void GOForward();
@@ -42,6 +42,5 @@ void GoBackWard();
 void Stop();
 void steerRight();
 void Steerleft();
-void  SteerStright();
+void SteerStraight();
 #endif	/* XC_HEADER_TEMPLATE_H */
-
