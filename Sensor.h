@@ -21,7 +21,7 @@
 
 /* 
  * File:   
- * Author: Hassan Elsaied Mohammed Mohammed
+ * Author: Hassan Elsaied 
  * Comments:
  * Revision history: 
  */
@@ -31,12 +31,22 @@
 #ifndef  _Sensor_H
 #define	 _Sensor_H
 #include <xc.h>  
-#define  Echo  RB0
-#define  Trigger   RB1
-#define  Trigger_FR  RB2 
-#define  Echo_FR     RB3
+#define  Trigger_FS   RB0
+#define Echo_FS       RB1
+#define  Trigger_LFS  RB2 
+#define  Echo_LFS     RB3
+#define  Trigger_RFS  RB4
+#define  Echo_RFS     RB5
+#define  Trigger_RBS  RB6
+#define  Echo_RBS     RB7 
+#define  Trigger_LBS  RC1
+#define  Echo_LBS     RC2
 long Time;
 void INITSensor();
 int ForwardSensor();
 int RightForwardSensor();
+int LeftForwardSensor();
+int RightBackSensor();
+int LeftBackSensor();
+
 #endif	/* _Sensor_H */
