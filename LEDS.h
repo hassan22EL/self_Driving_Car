@@ -21,7 +21,7 @@
 
 /* 
  * File:   
- * Author: 
+ * Author: Hassan Elsaied 
  * Comments:
  * Revision history: 
  */
@@ -30,10 +30,10 @@
 // more than once.  
 #ifndef   _LEDs_H  
 #define	  _LEDs_H
-#define  LED_Forward_Right   RB6
-#define  LED_Forward_left    RB7 
-#define  LED_Back_left       RD4
-#define  LED_Back_Right      RD5
+#define   BL_LED  RD0
+#define   BR_LED  RD1 
+#define   FR_LED  RD2
+#define   FL_LED  RD3
 #include <xc.h> // include processor files - each processor file is guarded.  
 void INIT_LEDS();
 void Car_Wait();
