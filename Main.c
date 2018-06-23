@@ -6,12 +6,12 @@
  */
 
 
-#include <xc.h>
-
-#include "Sensor.h"
-#include "LEDS.h"
-#include "Motor.h"
+#include    <xc.h>
 #include "../inulde/PWM_CCP.X/PWM1.h"
+#include "Blutooth.h"
+#include "LEDS.h"
+#include "Sensor.h"
+#include "Motor.h"
 #define _XTAL_FREQ  16000000
 #pragma config FOSC =HS 
 #pragma config WDTE =OFF
@@ -23,69 +23,73 @@
 #pragma config CP=OFF 
 
 void main(void) {
-    int Distance, Distance_FR;
+    int Distance_FS, Distance_RFS, Distance_LFS, Distance_RBS, Distance_LBS;
     INITSensor();
     INIT_LEDS();
     InitCar();
     while (1) {
-        TMR1H = 0x00;
         TMR1L = 0x00;
-        Distance = ForwardSensor();
-        Distance_FR = RightForwardSensor();
-        if (Distance > 350) {
+        TMR1H = 0x00;
+        Distance_FS = ForwardSensor();
+        if (Distance_FS > 350) {
             GOForward();
-            SteerStright();
-            LED_Back_Right = 0;
-            LED_Back_left = 0;
-            LED_Forward_Right = 1;
-            LED_Back_Right = 0;
+            SteerStraight();
             PWM1_Set_Duty(200);
-        } else if (Distance <= 350 && Distance > 131) {
+            LED_OFF();
+        } else if (Distance_FS <= 350 && Distance_FS > 200) {
             GOForward();
-            SteerStright();
-            LED_Back_Right = 0;
-            LED_Back_left = 0;
-            LED_Forward_Right = 0;
-            LED_Back_Right = 1;
+            SteerStraight();
             PWM1_Set_Duty(150);
-        } else if (Distance <= 131 && Distance > 85) {
+            LED_OFF();
+        } else if (Distance_FS <= 200 && Distance_FS > 130) {
             GOForward();
-            SteerStright();
+            SteerStraight();
+            PWM1_Set_Duty(120);
+            LED_OFF();
+        } else if (Distance_FS <= 130 && Distance_FS < 80) {
+            GOForward();
+            SteerStraight();
+            PWM1_Set_Duty(100);
+            LED_OFF();
+        } else if (Distance_FS <= 80 && Distance_FS > 50) {
+            GOForward();
+            SteerStraight();
             PWM1_Set_Duty(80);
-            LED_Back_Right = 1;
-            LED_Back_left = 0;
-            LED_Forward_Right = 0;
-            LED_Back_Right = 0;
-        } else if (Distance <= 85 && Distance > 45) {
+            LED_OFF();
+        } else if (Distance_FS <= 50 && Distance_FS > 30) {
             GOForward();
-            SteerStright();
-            PWM1_Set_Duty(40);
-            LED_Back_Right = 1;
-            LED_Back_left = 1;
-            LED_Forward_Right = 0;
-            LED_Back_Right = 0;
-        } else if (Distance <= 45) {
-            if (Distance_FR > 50) {
-                GOForward();
-                Steerleft();
-                PWM1_Set_Duty(20);
-                LED_Forward_left = 1;
-                LED_Back_left = 1;
-                __delay_ms(2000);
-                SteerStright();
-                LED_Forward_left = 0;
-                LED_Back_left = 0;
+            SteerStraight();
+            PWM1_Set_Duty(30);
+            Car_Back(); 
+        } else if (Distance_FS <= 30) {
+            Distance_RFS = RightForwardSensor();
+            Distance_RBS = RightBackSensor();
+            GOForward();
+            Car_Back();
+            PWM1_Set_Duty(20);
+            if (Distance_RBS > 20 && Distance_RFS > 20) {
+                steerRight();
+                Car_Right();
+                SteerStraight();
             } else {
-                Stop();
-                LED_Back_Right = 1;
-                LED_Back_left = 1;
-                LED_Forward_Right = 0;
-                LED_Forward_left = 0;
+                GOForward();
+                Distance_LFS = LeftForwardSensor();
+                Distance_LBS = LeftBackSensor();
+                if (Distance_LFS > 20 && Distance_LBS > 20) {
+                    Steerleft();
+                    Car_Left();
+                    SteerStraight();
+
+                } else {
+                    PWM1_Set_Duty(0);
+                    Stop();
+                    Car_Wait();
+                }
+
 
             }
-
-
         }
+
     }
 }
 
