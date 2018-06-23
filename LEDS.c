@@ -9,53 +9,53 @@
 #include <xc.h>
 #include "LEDS.h"
 #define _XTAL_FREQ  16000000
+
 void INIT_LEDS() {
-    TRISBbits.TRISB6 = 0;
-    TRISBbits.TRISB7 = 0;
-    TRISDbits.TRISD4 = 0;
-    TRISDbits.TRISD5 = 0;
-    LED_Back_Right = 0;
-    LED_Back_left = 0;
-    LED_Forward_Right = 0;
-    LED_Forward_left = 0;
+    TRISDbits.TRISD0 = 0; // pin output on  LED BL_LED
+    TRISDbits.TRISD1 = 0; //  pin output on  LED BR_LED 
+    TRISDbits.TRISD4 = 0; // pin output on  LED FR_LED
+    TRISDbits.TRISD5 = 0; //pin output on  LED FL_LED
+    BL_LED = 0; //oFf BL_LED 
+    BR_LED = 0; //oFf BR_LED
+    FR_LED = 0; //oFf FR_LED
+    FL_LED = 0; //oFf FL_LED
 }
 
 void Car_Wait() {
-    LED_Back_Right = 1;
-    LED_Back_left = 1;
-    LED_Forward_Right = 1;
-    LED_Forward_left = 1;
+    BL_LED = 1;
+    BR_LED = 1;
+    FL_LED = 1;
+    FR_LED = 1;
     __delay_ms(1000);
-    LED_Back_Right = 0;
-    LED_Back_left = 0;
-    LED_Forward_Right = 0;
-    LED_Forward_left = 0;
+    BL_LED = 0;
+    BR_LED = 0;
+    FL_LED = 0;
+    FR_LED = 0;
 }
 
 void Car_Left() {
-    LED_Forward_left = 1;
-    LED_Back_left = 1;
+
+    FL_LED = 1;
+    BL_LED = 1;
     __delay_ms(1000);
-    LED_Back_left = 0;
-    LED_Forward_left = 0;
+    FL_LED = 0;
+    BL_LED = 0;
 }
 
 void Car_Right() {
-    LED_Forward_Right = 1;
-    LED_Back_Right = 1;
+    FR_LED = 1;
+    BR_LED = 1;
     __delay_ms(1000);
-    LED_Back_Right = 0;
-    LED_Forward_Right = 0;
+    FR_LED = 0;
+    BR_LED = 0;
 }
 
 void Car_Back() {
-    LED_Back_Right = 1;
-    LED_Back_left = 1;
-
+   BR_LED  = 1;
+    BL_LED = 1;
 }
 
 void Car_Forward() {
-    LED_Forward_Right = 1;
-    LED_Forward_left = 1;
+    FR_LED=1;
+    FL_LED=1;
 }
- 
