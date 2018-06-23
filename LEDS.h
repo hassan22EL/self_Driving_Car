@@ -34,7 +34,9 @@
 #define   BR_LED  RD1 
 #define   FR_LED  RD2
 #define   FL_LED  RD3
+#define   LDR     RA1
 #include <xc.h> // include processor files - each processor file is guarded.  
+
 void INIT_LEDS();
 void LED_OFF();
 void Car_Wait();
@@ -42,5 +44,6 @@ void Car_Left();
 void Car_Right();
 void Car_Forward();
 void Car_Back();
+void Car_BackS();
 #endif	/*  _LEDs_H */
 
