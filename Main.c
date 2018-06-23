@@ -31,31 +31,28 @@ void main(void) {
         TMR1L = 0x00;
         TMR1H = 0x00;
         Distance_FS = ForwardSensor();
+        Car_Forward();
+        Car_BackS();
         if (Distance_FS > 350) {
             GOForward();
             SteerStraight();
             PWM1_Set_Duty(200);
-            LED_OFF();
         } else if (Distance_FS <= 350 && Distance_FS > 200) {
             GOForward();
             SteerStraight();
             PWM1_Set_Duty(150);
-            LED_OFF();
         } else if (Distance_FS <= 200 && Distance_FS > 130) {
             GOForward();
             SteerStraight();
             PWM1_Set_Duty(120);
-            LED_OFF();
         } else if (Distance_FS <= 130 && Distance_FS < 80) {
             GOForward();
             SteerStraight();
             PWM1_Set_Duty(100);
-            LED_OFF();
         } else if (Distance_FS <= 80 && Distance_FS > 50) {
             GOForward();
             SteerStraight();
             PWM1_Set_Duty(80);
-            LED_OFF();
         } else if (Distance_FS <= 50 && Distance_FS > 30) {
             GOForward();
             SteerStraight();
