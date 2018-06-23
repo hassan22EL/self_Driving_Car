@@ -36,6 +36,7 @@
 #define   FL_LED  RD3
 #include <xc.h> // include processor files - each processor file is guarded.  
 void INIT_LEDS();
+void LED_OFF();
 void Car_Wait();
 void Car_Left();
 void Car_Right();
