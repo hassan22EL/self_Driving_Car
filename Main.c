@@ -60,7 +60,7 @@ void main(void) {
             GOForward();
             SteerStraight();
             PWM1_Set_Duty(30);
-            Car_Back(); 
+            Car_Back();
         } else if (Distance_FS <= 30) {
             Distance_RFS = RightForwardSensor();
             Distance_RBS = RightBackSensor();
@@ -79,14 +79,11 @@ void main(void) {
                     Steerleft();
                     Car_Left();
                     SteerStraight();
-
                 } else {
                     PWM1_Set_Duty(0);
                     Stop();
                     Car_Wait();
                 }
-
-
             }
         }
 
