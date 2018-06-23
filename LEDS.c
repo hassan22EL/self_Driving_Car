@@ -20,6 +20,12 @@ void INIT_LEDS() {
     FR_LED = 0; //oFf FR_LED
     FL_LED = 0; //oFf FL_LED
 }
+void LED_OFF(){
+   BL_LED = 0; //oFf BL_LED 
+    BR_LED = 0; //oFf BR_LED
+    FR_LED = 0; //oFf FR_LED
+    FL_LED = 0; //oFf FL_LED
+}
 
 void Car_Wait() {
     BL_LED = 1;
