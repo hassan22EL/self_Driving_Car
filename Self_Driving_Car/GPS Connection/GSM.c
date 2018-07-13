@@ -1,4 +1,4 @@
-/*
+/*/*
 * GSM.c
 *
 * Created: 7/10/2018 10:06:04 PM
@@ -174,4 +174,94 @@ int8_t	SIM300_GetModel(char *Model){
 	SIM300_Buffer[len-1]='\0';
 	strcpy(Model,SIM300_Buffer+2);
 	return SIM300_OK ;
+	}
+int8_t SIM300_WaitForMsg(uint8_t *id){
+	uint8_t len =SIM300_WaitForResponse(250);
+	if(len==0)
+	return SIM300_TIMEOUT ;
+	SIM300_Buffer[len-1]='\0';
+	if(strncasecmp(SIM300_Buffer+2,"+CMTI:",6)==0){
+		char str_id[4];
+		char *start ;
+		start=strchr(SIM300_Buffer,',');
+		start++;
+		strcpy(str_id,start);
+		*id=atoi(str_id);
+		return SIM300_OK;
+		}else{
+			return SIM300_FIAL;
+		}
+}
+uint8_t SIM300_ReadMsg(uint8_t i,char *msg){
+		EUSART_Flush();
+		char cmd[16];
+		sprintf(cmd,"AT+CMGR=%d",i);//READ SMS MESSAGE
+		SIM300_Command(cmd);
+		uint8_t len = SIM300_WaitForResponse(1000);
+		if(len==0)
+			return SIM300_TIMEOUT ;
+			SIM300_Buffer[len-1]='\0' ;
+			if(strcasecmp(SIM300_Buffer,"+CMS ERROR: 517")==0){
+				return SIM300_SIM_NOT_PRESENT ;
+				
+			}
+			if(strcasecmp(SIM300_Buffer+2,"OK")==0){
+				return SIM300_SIM_PRESENT ;
+			}
+			len =SIM300_WaitForResponse(1000);
+			if(len==0)
+			return SIM300_TIMEOUT ;
+			SIM300_Buffer[len-1]='\0';
+			strcpy(msg,SIM300_Buffer+1);
+			return SIM300_OK ;
+		
+	}
+uint8_t SIM300_SendMsg(const char *num ,const char *mag , uint8_t *msg_ref){
+		EUSART_Flush();
+		char cmd[25];
+		sprintf(cmd,"AT+CMGS=%s",num);//Send SMS message
+		cmd[8]=0x22;//"
+		uint8_t n=strlen(cmd);
+		cmd[n]=0x22;//"
+		cmd[n+1]='\0';
+		SIM300_Command(cmd);
+		_delay_ms(100);
+		EUSART_Write_Text(mag);
+		EUSART_Write(0x1A);
+		while(EUSART_Available()<(strlen(mag)+5));
+		EUSART_Read_Text(SIM300_Buffer,strlen(mag)+5);
+		uint8_t len =SIM300_WaitForResponse(6000);
+		if(len==0)
+		return SIM300_TIMEOUT ;
+		SIM300_Buffer[len-1]='\0';
+		if(strncasecmp(SIM300_Buffer+2,"CMGS:",5)==0){
+			*msg_ref=atoi(SIM300_Buffer+8);
+			EUSART_Flush();
+			return SIM300_OK ;
+			}else
+			{
+				EUSART_Flush();
+				return SIM300_FIAL ;
+			}
+			
+		
+		
+	}
+	int8_t   SIM300DeleteMsg(uint8_t i){
+		EUSART_Flush();
+		char cmd[16];
+		sprintf(cmd,"AT+CMGD=%d",i);
+		SIM300_Command(cmd);
+		
+		uint8_t len=SIM300_WaitForResponse(1000);
+		   if(len==0)
+		   return SIM300_TIMEOUT;
+
+		   SIM300_Buffer[len-1]='\0';
+
+		   //Check if the response is OK
+		   if(strcasecmp(SIM300_Buffer+2,"OK")==0)
+		   return SIM300_OK;
+		   else
+		   return SIM300_FIAL;	
 	}
