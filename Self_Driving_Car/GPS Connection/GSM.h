@@ -34,8 +34,8 @@ uint8_t SIM300_GetProviderName(char  *Name);
 int8_t	SIM300_GetIMEI(char *EMEI);
 int8_t	SIM300_GetManufacturer(char *man_id);
 int8_t	SIM300_GetModel(char *Model);
-
-
-
-
+int8_t SIM300_WaitForMsg(uint8_t *id);
+uint8_t SIM300_ReadMsg(uint8_t i,char *msg);
+uint8_t SIM300_SendMsg(const char *num ,const char *mag ,uint8_t *msg_ref);
+int8_t   SIM300DeleteMsg(uint8_t i);
 #endif /* GSM_H_ */
